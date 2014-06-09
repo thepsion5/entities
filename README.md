@@ -6,12 +6,14 @@ A simple repository to aid in managing entities and value objects.
 
 Add thepsion5/menuizer as a requirement to your composer.json:
 
-````{
+````json
+{
     "require": {
         "thepsion5/entity" : "dev-master"
     }
 }````
-Then run composer update
+
+Then run composer update.
 
 ##Entities
 
@@ -65,5 +67,5 @@ class Email
 
 ##Todo
 * Documentation for Enums
-* Implement generic Entity Collections
+* Implement Generic and extendable abstract Entity Collections
 * Pre-defined value objects for common use-cases
