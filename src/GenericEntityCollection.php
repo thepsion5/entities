@@ -4,7 +4,6 @@ namespace Thepsion5\Entities;
 
 class GenericEntityCollection extends AbstractEntityCollection
 {
-
     public function add(EntityInterface $entity)
     {
         return $this->addEntity($entity);
@@ -12,7 +11,7 @@ class GenericEntityCollection extends AbstractEntityCollection
 
     public function has(EntityInterface $entity)
     {
-        return $this->hasEntity($entity);
+        return $this->hasEntity($entity->getId());
     }
 
     public function get($id)
@@ -20,20 +19,10 @@ class GenericEntityCollection extends AbstractEntityCollection
         return $this->getEntity($id);
     }
 
-    public function offsetSet($offset, $value)
+    public function remove($id)
     {
-        $this->validateOffsetToAdd($offset, $value);
-        $this->add($value);
-    }
-
-    protected function validateOffsetToAdd($offset, $value)
-    {
-        if(!$value instanceof EntityInterface) {
-            throw new \InvalidArgumentException('Only entities may be added to this collection.');
-        }
-        if($offset != $value->getId()) {
-            throw new \InvalidArgumentException('The offset being set must match the entity\'s id');
-        }
-        $this->add($value);
+        $entity = $this->get($id);
+        $this->removeEntity($id);
+        return $entity;
     }
 }

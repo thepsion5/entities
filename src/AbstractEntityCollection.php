@@ -3,7 +3,7 @@ namespace Thepsion5\Entities;
 
 use Thepsion5\Entities\Exceptions\EntityNotFoundException;
 
-abstract class AbstractEntityCollection implements \ArrayAccess, \IteratorAggregate, \Countable
+abstract class AbstractEntityCollection implements \IteratorAggregate, \Countable
 {
     /**
      * @var array
@@ -68,35 +68,6 @@ abstract class AbstractEntityCollection implements \ArrayAccess, \IteratorAggreg
         if (!$this->hasEntity($index)) {
             throw new EntityNotFoundException;
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function offsetExists($offset)
-    {
-        return $this->hasEntity($offset);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function offsetGet($offset)
-    {
-        return $this->getEntity($offset);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public abstract function offsetSet($offset, $value);
-
-    /**
-     * {@inheritdoc}
-     */
-    public function offsetUnset($offset)
-    {
-        $this->removeEntity($offset);
     }
 
     /**
