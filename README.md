@@ -1,6 +1,7 @@
 #Entities
+A simple package to aid in managing entities and value objects.
 
-A simple repository to aid in managing entities and value objects.
+![Build Status](https://travis-ci.org/thepsion5/menuizer.svg?branch=master)
 
 ##Installation
 
