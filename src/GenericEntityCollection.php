@@ -4,6 +4,13 @@ namespace Thepsion5\Entities;
 
 class GenericEntityCollection extends AbstractEntityCollection
 {
+    public function __construct(array $entities = array())
+    {
+        foreach($entities as $entity) {
+            $this->addEntity($entity);
+        }
+    }
+
     public function add(EntityInterface $entity)
     {
         return $this->addEntity($entity);

@@ -10,13 +10,6 @@ abstract class AbstractEntityCollection implements \IteratorAggregate, \Countabl
      */
     protected $entities = array();
 
-    public function __construct(array $entities = array())
-    {
-        foreach($entities as $entity) {
-            $this->addEntity($entity);
-        }
-    }
-
     /**
      * @param EntityInterface $entity
      * @return $this
@@ -28,11 +21,12 @@ abstract class AbstractEntityCollection implements \IteratorAggregate, \Countabl
     }
 
     /**
-     * @param string $index
+     * @param EntityInterface|string $index
      * @return bool
      */
     protected function hasEntity($index)
     {
+        $index = ($index instanceof EntityInterface) ? $index->getId() : $index;
         return isset($this->entities[$index]);
     }
 
@@ -48,13 +42,14 @@ abstract class AbstractEntityCollection implements \IteratorAggregate, \Countabl
     }
 
     /**
-     * @param string $entityId
+     * @param EntityInterface|string $entityId
      * @return $this
      * @throws \Thepsion5\Entities\Exceptions\EntityNotFoundException
      */
     protected function removeEntity($entityId)
     {
         $this->validateEntityExists($entityId);
+        $entity = $this->getEntity($entityId);
         unset($this->entities[$entityId]);
         return $this;
     }
