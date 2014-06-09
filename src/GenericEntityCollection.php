@@ -1,68 +1,39 @@
 <?php
 namespace Thepsion5\Entities;
 
-use Traversable;
 
-class GenericEntityCollection extends AbstractEntityCollection implements \ArrayAccess, \IteratorAggregate, \Countable
+class GenericEntityCollection extends AbstractEntityCollection
 {
 
-    public function offsetExists($offset)
+    public function add(EntityInterface $entity)
     {
-        return $this->hasEntity($offset);
+        return $this->addEntity($entity);
     }
 
-    public function offsetGet($offset)
+    public function has(EntityInterface $entity)
     {
-        return $this->getEntity($offset);
+        return $this->hasEntity($entity);
+    }
+
+    public function get($id)
+    {
+        return $this->getEntity($id);
     }
 
     public function offsetSet($offset, $value)
     {
         $this->validateOffsetToAdd($offset, $value);
-        $this->addEntity($value);
+        $this->add($value);
     }
 
-    public function offsetUnset($offset)
+    protected function validateOffsetToAdd($offset, $value)
     {
-        $this->removeEntity($offset);
-    }
-
-    protected function validateOffsetToAdd($id, $entity)
-    {
-        if(!$entity instanceof EntityInterface) {
-            throw new \InvalidArgumentException('Only entities can be added to this collection.');
+        if(!$value instanceof EntityInterface) {
+            throw new \InvalidArgumentException('Only entities may be added to this collection.');
         }
-        if($id != $entity->getId()) {
-            throw new \InvalidArgumentException('The index to set must match the entity\'s ID.');
+        if($offset != $value->getId()) {
+            throw new \InvalidArgumentException('The offset being set must match the entity\'s id');
         }
-        return true;
-    }
-
-    /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
-     * Retrieve an external iterator
-     *
-     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return Traversable An instance of an object implementing <b>Iterator</b> or
-     *       <b>Traversable</b>
-     */
-    public function getIterator()
-    {
-        return new \ArrayIterator($this->all());
-    }
-
-    /**
-     * (PHP 5 &gt;= 5.1.0)<br/>
-     * Count elements of an object
-     *
-     * @link http://php.net/manual/en/countable.count.php
-     * @return int The custom count as an integer.
-     *       </p>
-     *       <p>
-     *       The return value is cast to an integer.
-     */
-    public function count()
-    {
-        // TODO: Implement count() method.
+        $this->add($value);
     }
 }

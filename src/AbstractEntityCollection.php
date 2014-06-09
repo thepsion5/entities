@@ -3,7 +3,7 @@ namespace Thepsion5\Entities;
 
 use Thepsion5\Entities\Exceptions\EntityNotFoundException;
 
-abstract class AbstractEntityCollection
+abstract class AbstractEntityCollection implements \ArrayAccess, \IteratorAggregate, \Countable
 {
     /**
      * @var array
@@ -15,14 +15,6 @@ abstract class AbstractEntityCollection
         foreach($entities as $entity) {
             $this->addEntity($entity);
         }
-    }
-
-    /**
-     * @return array
-     */
-    protected function all()
-    {
-        return $this->entities;
     }
 
     /**
@@ -47,7 +39,7 @@ abstract class AbstractEntityCollection
     /**
      * @param string $index
      * @return EntityInterface
-     * @throws Thepsion5\Entities\Exceptions\EntityNotFoundException
+     * @throws \Thepsion5\Entities\Exceptions\EntityNotFoundException
      */
     protected function getEntity($index)
     {
@@ -58,7 +50,7 @@ abstract class AbstractEntityCollection
     /**
      * @param string $entityId
      * @return $this
-     * @throws Thepsion5\Entities\Exceptions\EntityNotFoundException
+     * @throws \Thepsion5\Entities\Exceptions\EntityNotFoundException
      */
     protected function removeEntity($entityId)
     {
@@ -69,12 +61,57 @@ abstract class AbstractEntityCollection
 
     /**
      * @param string $index
-     * @throws Exceptions\EntityNotFoundException
+     * @throws \Thepsion5\Entities\Exceptions\EntityNotFoundException
      */
     protected function validateEntityExists($index)
     {
         if (!$this->hasEntity($index)) {
             throw new EntityNotFoundException;
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetExists($offset)
+    {
+        return $this->hasEntity($offset);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetGet($offset)
+    {
+        return $this->getEntity($offset);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public abstract function offsetSet($offset, $value);
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetUnset($offset)
+    {
+        $this->removeEntity($offset);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->entities);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function count()
+    {
+        return count($this->entities);
     }
 }
