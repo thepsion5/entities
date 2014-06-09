@@ -1,6 +1,9 @@
 {
     "name": "thepsion5/entities",
     "description": "A simple library for managing entities and value objects",
+    "type": "library",
+    "keywords": ["entity", "entities", "value objects", "enums"],
+    "license": "MIT",
     "authors": [
         {
             "name": "Sean Mumford",
