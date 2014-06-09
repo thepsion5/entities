@@ -1,0 +1,24 @@
+{
+    "name": "thepsion5/entities",
+    "description": "A simple library for managing entities and value objects",
+    "authors": [
+        {
+            "name": "Sean Mumford",
+            "email": "sean.mumford@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.0.*",
+        "mockery/mockery": "0.9.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Thepsion5\\Entities\\": "src/",
+            "Thepsion5\\Entities\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable"
+}
