@@ -12,7 +12,8 @@ Add thepsion5/menuizer as a requirement to your composer.json:
     "require": {
         "thepsion5/entity" : "dev-master"
     }
-}````
+}
+````
 
 Then run composer update.
 
@@ -31,6 +32,41 @@ class User implements \Thepsion5\Entities\EntityInterface
 Now, your User class will have functions to get and set the ID. If there isn't an ID already defined
 for this entity via `setId()`, a new uuid will automatically be generated automatically using
 PHP's [uniqid function](php.net/uniqid).
+
+##Entity Collections
+
+The `GenericEntityCollection` class provides a simple API for creating and maintaining collections
+of entities. Entities are automatically indexed by their IDs. Furthermore, the abstract class
+`AbstractEntityCollection` class is provided so that typehinted custom entity classes can
+be created:
+
+````php
+class UserCollection extends AbstractEntityCollection
+{
+
+    public function __construct(array $users)
+    {
+        foreach($users as $user) {
+            $this->add($user);
+        }
+    }
+
+    public function add(UserEntity $user)
+    {
+        return $this->addEntity($user);
+    }
+
+    public function get($id)
+    {
+        return $this->getEntity($id);
+    }
+
+    public function has($entityOrId)
+    {
+        return $this->hasEntity($id);
+    }
+}
+````
 
 ##Value Objects
 
@@ -66,7 +102,26 @@ class Email
 }
 ````
 
+##Enums
+
+An Enum trait is provided to make the implementation and use of enums simpler. All that's needed
+is to define class constants representing the enum values and then use the trait:
+
+````php
+class UserStatus
+{
+    use \Thepsion5\Entity\Traits\EnumTrait;
+
+    const BANNED        = -1;
+    const UNACTIVATED   = 1;
+    const ACTIVATE      = 2;
+}
+
+UseStatus::toArray(); //['BANNED' => -1, 'UNACTIVATED' => 1, 'ACTIVATED' => 2]
+$banned = UserStatus::BANNED();
+$banned == new UserStatus(UserStatus::BANNED); //true
+$banned->is('BANNED'); //true
+````
+
 ##Todo
-* Documentation for Enums
-* Implement Generic and extendable abstract Entity Collections
 * Pre-defined value objects for common use-cases
