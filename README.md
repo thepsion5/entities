@@ -1,11 +1,11 @@
 #Entities
 A simple package to aid in managing entities and value objects.
 
-![Build Status](https://travis-ci.org/thepsion5/menuizer.svg?branch=master) [![Coverage Status](https://img.shields.io/coveralls/thepsion5/entities.svg)](https://coveralls.io/r/thepsion5/entities)
+![Build Status](https://travis-ci.org/thepsion5/entities.svg?branch=master)  [![Coverage Status](https://img.shields.io/coveralls/thepsion5/entities.svg)](https://coveralls.io/r/thepsion5/entities)
 
 ##Installation
 
-Add thepsion5/menuizer as a requirement to your composer.json:
+Add `thepsion5/entities` as a requirement to your composer.json:
 
 ````json
 {
